@@ -16,6 +16,10 @@
         
         <script>
             window.onload = function() {
+                if (window.location.href.indexOf('http://localhost:5000') != 0) {
+                    document.getElementById('error').style.display = 'inline';
+                }
+            
                 var c = document.getElementById('canvas');
                 var s = new Snabric(c);
                 s.loadFromUrl('img.svg', function(img) {
@@ -72,6 +76,8 @@
     
     <body>
         <h3>SNABRIC</h3>
+        
+        <div id="error" style="display:none;">Please start the server using `grunt connect` and access this page via: http://localhost:5000/</div>
      
         <canvas id="canvas" height="500px" width="500px"></canvas>
         
