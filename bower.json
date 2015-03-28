@@ -1,0 +1,22 @@
+{
+  "name": "snabric",
+  "main": "snabric.js",
+  "version": "0.0.0",
+  "authors": [
+    "O. Thebe <othebe@gmail.com>"
+  ],
+  "description": "Integrate SVG manipulation into Fabric.js using Snap.svg",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fabric": "~1.4.13",
+    "snap.svg": "~0.3.0",
+    "canvg-gabelerner": "*"
+  }
+}
