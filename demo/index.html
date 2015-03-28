@@ -11,15 +11,17 @@
         <!-- http://snapsvg.io/ -->
         <script src="bower_components/snap.svg/dist/snap.svg-min.js"></script>
         
+        <!-- https://github.com/othebe/Snabric.js -->
         <script src="snabric.js"></script>
         
         <script>
-            var x;
             window.onload = function() {
                 var c = document.getElementById('canvas');
                 var s = new Snabric(c);
                 s.loadFromUrl('img.svg', function(img) {
                     var snap = img.getSnap();
+                    
+                    // Taken from http://snapsvg.io/start/
                     
                     // Lets create big circle in the middle:
                     var bigCircle = snap.circle(150, 150, 100);
