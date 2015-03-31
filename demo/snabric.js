@@ -3,8 +3,8 @@
  * Snabric.js extends the Fabric.js canvas with Snap.SVG's functionality to manipulate SVG's.
  * Requirements: Fabric.js, Snap.SVG
  */
- 
- 
+
+
 /**
  * Initialize a Snabric object.
  * @param {HTMLElement | String} elt <canvas> element to initialize instance on.
@@ -18,7 +18,7 @@ var Snabric = function(elt, options) {
       * @private
       */
     this._fCanvas = new fabric.Canvas(elt, options);
-    
+
     /**
      * A mapping of snabric images to fabric.js images.
      * @type {Map.<Snabric.Image, fabric.Image>}
@@ -34,7 +34,7 @@ var Snabric = function(elt, options) {
 
 /**
  * Add a SVG to the canvas. Updates the image map.
- * @param {Snabric.Image} sImg Snabric image to add on the canvas.\
+ * @param {Snabric.Image} sImg Snabric image to add on the canvas.
  * @param {Function(Snabric.Image)} onUpdate Callback function.
  * @private
  */
@@ -99,6 +99,16 @@ Snabric.prototype.loadFromUrl = function(url, onLoad) {
  */
 Snabric.prototype.remove = function(img) {
     this._fCanvas.remove(img);
+};
+
+
+/**
+ * Get the canvas.
+ * TODO (othebe): Overwrite functions that Snabric takes over from the canvas.
+ * @return {fabric.Canvas}
+ */
+Snabric.prototype.getCanvas = function() {
+    return this._fCanvas;
 };
 
 
