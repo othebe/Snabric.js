@@ -45,9 +45,9 @@ Snabric.prototype._updateCanvasImage = function(sImg, onUpdate) {
 
     // Add a new fabric image.
     if (fImg == null) {    
-        fabric.Image.fromURL(sImg.getDataUrl(), function(img) {
-            main._fCanvas.add(img);
-            main._imgMap.set(sImg, img);
+        fabric.Image.fromURL(sImg.getDataUrl(), function(fImg) {
+            main._fCanvas.add(fImg);
+            main._imgMap.set(sImg, fImg);
             
             if (onUpdate != null) {
                 onUpdate(sImg);
@@ -109,6 +109,16 @@ Snabric.prototype.remove = function(img) {
  */
 Snabric.prototype.getCanvas = function() {
     return this._fCanvas;
+};
+
+
+/**
+ * Get fabric image.
+ * @param sImg {Snabric.Image} Snabric image.
+ * @return {fabric.Image}
+ */
+Snabric.prototype.getFImg = function(sImg) {
+    return this._imgMap.get(sImg);
 };
 
 
