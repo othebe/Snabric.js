@@ -168,6 +168,7 @@ Snabric.prototype.setGridVisibility = function(isVisible, options) {
         if (this._grid != null) {
             var origDimensions = this._grid.getDimensions();
             if (origDimensions.width != this._fCanvas.getWidth() || origDimensions.height != this._fCanvas.getHeight()) {
+                this._fCanvas.remove(this._grid.getGrid());
                 this._grid = null;
             }
         }
@@ -181,9 +182,12 @@ Snabric.prototype.setGridVisibility = function(isVisible, options) {
             this._grid = new Snabric.Grid(options);
         }
         
+        // Draw grid only if it is not on the canvas.
         var grid = this._grid.getGrid();
-        this._fCanvas.add(grid);
-        grid.sendToBack();
+        if (!this._fCanvas.contains(grid)) {
+            this._fCanvas.add(grid);
+            grid.sendToBack();
+        }
     } else {
         if (this._grid != null) {
             this._fCanvas.remove(this._grid.getGrid());
