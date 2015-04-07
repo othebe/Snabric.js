@@ -8,6 +8,7 @@ declare module Snabric {
     export interface ISnabric {
         getCanvas(): fabric.ICanvas;
         getFImg(sImg: IImage): fabric.IImage;
+        handleKeyPress(e: KeyboardEvent): void;
         loadFromUrl(url: string, onLoad: (IImage) => void): void;
     }
 

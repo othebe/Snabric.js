@@ -29,6 +29,34 @@ var Snabric = function(elt, options) {
     this._snabricContainer = document.createElement('div');
     this._snabricContainer.style.opacity = 0;
     document.body.appendChild(this._snabricContainer);
+    
+    /**
+     * Key press handler. Called on response to key up.
+     * @type {Function(e)}
+     */
+    this.handleKeyPress = function(e) { };
+
+    // Setup event listeners.
+    this._setupEventListeners();
+};
+
+
+/**
+ * Setup event listeners for the Snabric canvas.
+ * @private
+ */
+Snabric.prototype._setupEventListeners = function() {
+    // Focus canvas on click.
+    var canvas = this._fCanvas.upperCanvasEl;
+    canvas.setAttribute('tabindex', 1);
+    canvas.addEventListener('click', function () {
+      canvas.focus();
+    });
+
+    // Setup key listener.
+    canvas.addEventListener('keyup', function (e) {
+        this.handleKeyPress(e);
+    }.bind(this));
 };
 
 
