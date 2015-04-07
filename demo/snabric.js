@@ -35,6 +35,13 @@ var Snabric = function(elt, options) {
      * @type {Function(e)}
      */
     this.handleKeyPress = function(e) { };
+    
+    /**
+     * Grid.
+     * @type {Snabric.Grid}
+     * @private
+     */
+    this._grid = null;
 
     // Setup event listeners.
     this._setupEventListeners();
@@ -142,11 +149,46 @@ Snabric.prototype.getCanvas = function() {
 
 /**
  * Get fabric image.
- * @param sImg {Snabric.Image} Snabric image.
+ * @param {Snabric.Image} sImg Snabric image.
  * @return {fabric.Image}
  */
 Snabric.prototype.getFImg = function(sImg) {
     return this._imgMap.get(sImg);
+};
+
+
+/**
+ * Set visibility of grid.
+ * @param {boolean} isVisible Determines if the grid is visible.
+ * @param {Object} options Grid options.
+ */
+Snabric.prototype.setGridVisibility = function(isVisible, options) {
+    if (isVisible) {
+        // Redraw grid if dimensions have changed.
+        if (this._grid != null) {
+            var origDimensions = this._grid.getDimensions();
+            if (origDimensions.width != this._fCanvas.getWidth() || origDimensions.height != this._fCanvas.getHeight()) {
+                this._grid = null;
+            }
+        }
+        
+        // Initialize grid.
+        if (this._grid == null) {
+            options = options || {};
+            // Grid width and height cannot be overwritten.
+            options.width = this._fCanvas.getWidth();
+            options.height = this._fCanvas.getHeight();
+            this._grid = new Snabric.Grid(options);
+        }
+        
+        var grid = this._grid.getGrid();
+        this._fCanvas.add(grid);
+        grid.sendToBack();
+    } else {
+        if (this._grid != null) {
+            this._fCanvas.remove(this._grid.getGrid());
+        }
+    }
 };
 
 
@@ -248,4 +290,88 @@ Snabric.Image.prototype.getDataUrl = function() {
     ctx.drawSvg(svg.outerHTML, 0, 0);
     
     return canvas.toDataURL();
+};
+
+
+
+/**
+ * A snabric grid object.
+ * @param {Object} options Grid options.
+ * @constructor
+ */
+Snabric.Grid = function(options) {
+    /**
+     * Grid options.
+     * @type {Object}
+     * @private
+     */
+    this._options = options || {};
+    
+    /**
+     * Grid display group.
+     * @type {fabric.Group}
+     * @private
+     */
+    this._group = new fabric.Group();
+    
+    /**
+     * Grid dimensions.
+     * @type {Object}
+     * @private
+     */
+    this._dimensions = { width: null, height: null};
+    
+    this._constructGroup(this._options);
+};
+
+
+/**
+ * Construct the grid group.
+ * @private
+ */
+Snabric.Grid.prototype._constructGroup = function(options) {
+    var canvasWidth = options['width'] || 0;
+    var canvasHeight = options['height'] || 0;
+    var tileSize = options['tileSize'] || 1;
+    var strokeColor = options['strokeColor'] || 'green';
+    var strokeWidth = options['stroke'] || 0.5
+    
+    // Horizontal lines.
+    for (var y = tileSize; y < canvasHeight; y += tileSize) {
+        var line = new fabric.Line([0, y, canvasWidth, y], {
+            stroke: strokeColor,
+            strokeWidth: strokeWidth
+        });
+        this._group.add(line);
+    }
+    
+    // Vertical lines.
+    for (var x = tileSize; x < canvasWidth; x += tileSize) {
+        var line = new fabric.Line([x, 0, x, canvasHeight], {
+            stroke: strokeColor,
+            strokeWidth: strokeWidth
+        });
+        this._group.add(line);
+    }
+    
+    this._dimensions.width = canvasWidth;
+    this._dimensions.height = canvasHeight;
+};
+
+
+/**
+ * Get grid.
+ * @return {fabric.IObject}
+ */
+Snabric.Grid.prototype.getGrid = function() {
+    return this._group;
+};
+
+
+/**
+ * Get dimensions.
+ * @return {Object}
+ */
+Snabric.Grid.prototype.getDimensions = function() {
+    return this._dimensions;
 };

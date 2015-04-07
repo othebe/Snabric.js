@@ -10,6 +10,7 @@ declare module Snabric {
         getFImg(sImg: IImage): fabric.IImage;
         handleKeyPress(e: KeyboardEvent): void;
         loadFromUrl(url: string, onLoad: (IImage) => void): void;
+        setGridVisibility(isVisible: boolean, options?: Object): void;
     }
 
     export interface IImage {
