@@ -164,10 +164,16 @@ Snabric.prototype.getFImg = function(sImg) {
  */
 Snabric.prototype.setGridVisibility = function(isVisible, options) {
     if (isVisible) {
+        options = options || {};
+        
+        // Grid width and height should not be overwritten without good reason.
+        var requestedWidth = options.width || this._fCanvas.getWidth();
+        var requestedHeight = options.height || this._fCanvas.getHeight();
+        
         // Redraw grid if dimensions have changed.
         if (this._grid != null) {
             var origDimensions = this._grid.getDimensions();
-            if (origDimensions.width != this._fCanvas.getWidth() || origDimensions.height != this._fCanvas.getHeight()) {
+            if (origDimensions.width != requestedWidth || origDimensions.height != requestedHeight) {
                 this._fCanvas.remove(this._grid.getGrid());
                 this._grid = null;
             }
@@ -175,10 +181,8 @@ Snabric.prototype.setGridVisibility = function(isVisible, options) {
         
         // Initialize grid.
         if (this._grid == null) {
-            options = options || {};
-            // Grid width and height cannot be overwritten.
-            options.width = this._fCanvas.getWidth();
-            options.height = this._fCanvas.getHeight();
+            options.width = requestedWidth;
+            options.height = requestedHeight;
             this._grid = new Snabric.Grid(options);
         }
         
