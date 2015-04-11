@@ -190,7 +190,7 @@ Snabric.prototype.setGridVisibility = function(isVisible, options) {
         var grid = this._grid.getGrid();
         if (!this._fCanvas.contains(grid)) {
             this._fCanvas.add(grid);
-            grid.sendToBack();
+            grid.bringToFront();
         }
     } else {
         if (this._grid != null) {
