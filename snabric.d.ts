@@ -15,6 +15,7 @@ declare module Snabric {
 
     export interface IImage {
         getSnap(): Snap.Paper;
+        getSvgElement(): SVGElement;
         updateSnap(paper: Snap.Paper): void;
     }
 } 
